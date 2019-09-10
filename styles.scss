@@ -2,31 +2,33 @@ $main-color: #eee;
 $side-size: 100px;
 $main-font: Arial, sans-serif;
 $border-gap: 1px;
+$week: ("mon": 1,
+        "tue": 2,
+        "wed": 3,
+        "thu": 4,
+        "fri": 5,
+        "sat": 6,
+        "sun": 7);
 $hover-bg: pink;
 
 body {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .calendar {
-    display: grid;
-    grid-template-columns: repeat(7, $side-size);
-    grid-auto-rows: $side-size;
-    grid-gap: $border-gap;
-    font-family: $main-font;
-    font-size: 30px;
-    margin: auto;
+      display: grid;
+      grid-template-columns: repeat(7, $side-size);
+      grid-auto-rows: $side-size;
+      grid-gap: $border-gap;
+      font-family: $main-font;
+      font-size: 30px;
 
     div:nth-child(n) {
         box-sizing: border-box;
         border: $border-gap solid black;
         background: $main-color;
         transition: all 0.5s;
-    }
-
-    div:first-child {
-        grid-column-start: 2;
     }
 
     div:nth-child(n):hover {
@@ -43,85 +45,16 @@ body {
             line-height: $side-size;
         }
     }
-}
 
-.calendar-28 {
-    @for $i from 1 through 28 {
-        div:nth-child(#{$i})::before {
-            content: "#{$i}";
-            display: block;
-            text-align: center;
-            line-height: $side-size;
-        }
-        div:nth-child(29),
-        div:nth-child(30),
-        div:nth-child(31) {
-            display: none;
-        }
+    @each $day, $day-number in $week {
+      &-#{$day} :first-child {
+        grid-column-start: $day-number;
+      }
     }
-}
 
-.calendar-29 {
-    @for $i from 1 through 29 {
-        div:nth-child(#{$i})::before {
-            content: "#{$i}";
-            display: block;
-            text-align: center;
-            line-height: $side-size;
-        }
-        div:nth-child(30),
-        div:nth-child(31) {
-            display: none;
-        }
-    }
-}
-
-.calendar-30 {
-    @for $i from 1 through 30 {
-        div:nth-child(#{$i})::before {
-            content: "#{$i}";
-            display: block;
-            text-align: center;
-            line-height: $side-size;
-        }
-        div:nth-child(31) {
-            display: none;
-        }
-    }
-}
-
-.calendar-mon {
-    div:first-child {
-        grid-column-start: 1;
-    }
-}
-
-.calendar-wed {
-    div:first-child {
-        grid-column-start: 3;
-    }
-}
-
-.calendar-thu {
-    div:first-child {
-        grid-column-start: 4;
-    }
-}
-
-.calendar-fri {
-    div:first-child {
-        grid-column-start: 5;
-    }
-}
-
-.calendar-sat {
-    div:first-child {
-        grid-column-start: 6;
-    }
-}
-
-.calendar-sun {
-    div:first-child {
-        grid-column-start: 7;
+    @for $i from 28 through 31 {
+      &-#{$i} :nth-child(n+#{$i+1}) {
+        display: none;
+      }
     }
 }
